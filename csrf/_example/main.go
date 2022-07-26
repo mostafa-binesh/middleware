@@ -19,13 +19,15 @@ import (
 func main() {
 	app := iris.New()
 	app.Logger().SetLevel("debug")
-
+	app.RegisterView(iris.Blocks("./views", ".html").Reload(true))
 	CSRF := csrf.Protect(
 		// Note that the authentication key provided should be 32 bytes
 		// long and persist across application restarts.
 		[]byte("9AB0F421E53A477C084477AEA06096F5"),
 		// WARNING: Set it to true on production with HTTPS.
 		csrf.Secure(false),
+		// you can set custom cookie name:
+		// csrf.CookieName("csrfToken"),
 	)
 
 	/*
